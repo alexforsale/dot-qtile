@@ -226,9 +226,9 @@ screens = [
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
-        background="#000000",
-        wallpaper=logo,
-        wallpaper_mode="center",
+        #background="#000000",
+        wallpaper="assets/img/arch-black-4k.png",
+        #wallpaper_mode="fill",
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
@@ -243,9 +243,8 @@ screens = [
             ],
             24,
         ),
-        background="#000000",
-        wallpaper=logo,
-        wallpaper_mode="center",
+        wallpaper="assets/img/various-arch-1-4k.png",
+        #wallpaper_mode="center",
     ),
 ]
 
