@@ -3,13 +3,913 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
+<!-- 2026-05-11 Mon 05:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
+<title>Qtile Configuration</title>
+<meta name="author" content="Kristian Alexander P" />
 <meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
 </head>
 <body>
 <div id="content" class="content">
+<h1 class="title">Qtile Configuration</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgd5578d0">1. Qtile</a>
+<ul>
+<li><a href="#org1e14df3">1.1. config.py</a>
+<ul>
+<li><a href="#org0d2be68">1.1.1. imports</a></li>
+<li><a href="#org1480f08">1.1.2. Set the mod variable</a></li>
+<li><a href="#org88ad6ef">1.1.3. Set the terminal variable</a></li>
+<li><a href="#org1e704ea">1.1.4. guess<sub>browser</sub>() function</a></li>
+<li><a href="#org12506e6">1.1.5. mail variable</a></li>
+<li><a href="#orgdaced30">1.1.6. filemanager variable</a></li>
+<li><a href="#orgbed02be">1.1.7. Keys</a></li>
+<li><a href="#org6320842">1.1.8. Switch VTs in wayland</a></li>
+<li><a href="#orge0a0462">1.1.9. groups</a></li>
+<li><a href="#org0962f5f">1.1.10. layouts</a></li>
+<li><a href="#orgdca0fbe">1.1.11. widget and extension defaults</a></li>
+<li><a href="#orga8e082a">1.1.12. screens</a></li>
+<li><a href="#orga429439">1.1.13. mouse - drag floating layouts</a></li>
+<li><a href="#orgb34fbc4">1.1.14. misc</a></li>
+<li><a href="#orgdf5fc8d">1.1.15. float rules</a></li>
+<li><a href="#org8866047">1.1.16. startups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgb7dc2e3">2. Picom</a>
+<ul>
+<li><a href="#orgfc3e3aa">2.1. picom.conf</a>
+<ul>
+<li><a href="#org427e0cd">2.1.1. shadows</a></li>
+<li><a href="#orgff185b7">2.1.2. fading</a></li>
+<li><a href="#orgb838b18">2.1.3. transparency / opacity</a></li>
+<li><a href="#orgdfb7a17">2.1.4. corners</a></li>
+<li><a href="#org66abe82">2.1.5. blur</a></li>
+<li><a href="#orgfd611e4">2.1.6. general settings</a></li>
+<li><a href="#orgf46d001">2.1.7. rules</a></li>
+<li><a href="#org618175c">2.1.8. imports</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org039f066">3. xdg-desktop-portal</a>
+<ul>
+<li><a href="#orgbec8e81">3.1. qtile-portal.conf</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd5578d0" class="outline-2">
+<h2 id="orgd5578d0"><span class="section-number-2">1.</span> Qtile</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org1e14df3" class="outline-3">
+<h3 id="org1e14df3"><span class="section-number-3">1.1.</span> config.py</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org0d2be68" class="outline-4">
+<h4 id="org0d2be68"><span class="section-number-4">1.1.1.</span> imports</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">1: </span><span style="color: #4169e1;">import</span> os
+<span class="linenr">2: </span><span style="color: #4169e1;">from</span> collections.abc <span style="color: #4169e1;">import</span> Callable
+<span class="linenr">3: </span><span style="color: #4169e1;">import</span> shutil
+<span class="linenr">4: </span>
+<span class="linenr">5: </span><span style="color: #4169e1;">import</span> libqtile.resources
+<span class="linenr">6: </span><span style="color: #4169e1;">from</span> libqtile <span style="color: #4169e1;">import</span> bar, layout, qtile, widget, hook
+<span class="linenr">7: </span><span style="color: #4169e1;">from</span> libqtile.config <span style="color: #4169e1;">import</span> Click, Drag, Group, Key, Match, Output, Screen
+<span class="linenr">8: </span><span style="color: #4169e1;">from</span> libqtile.lazy <span style="color: #4169e1;">import</span> lazy
+<span class="linenr">9: </span><span style="color: #4169e1;">from</span> libqtile.utils <span style="color: #4169e1;">import</span> guess_terminal
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1480f08" class="outline-4">
+<h4 id="org1480f08"><span class="section-number-4">1.1.2.</span> Set the mod variable</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">10: </span><span style="color: #b8860b;">mod</span> = <span style="color: #bc8f8f;">"mod4"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org88ad6ef" class="outline-4">
+<h4 id="org88ad6ef"><span class="section-number-4">1.1.3.</span> Set the terminal variable</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">11: </span><span style="color: #b8860b;">terminal</span> = guess_terminal()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1e704ea" class="outline-4">
+<h4 id="org1e704ea"><span class="section-number-4">1.1.4.</span> guess<sub>browser</sub>() function</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">12: </span>
+<span class="linenr">13: </span><span style="color: #4169e1;">def</span> <span style="color: #0000ff;">guess_browser</span>():
+<span class="linenr">14: </span>    <span style="color: #bc8f8f;">""""Get currently available browser."""</span>
+<span class="linenr">15: </span>    <span style="color: #4169e1;">for</span> b <span style="color: #4169e1;">in</span> [<span style="color: #bc8f8f;">"firefox"</span>, <span style="color: #bc8f8f;">"brave-browser"</span>, <span style="color: #bc8f8f;">"google-chrome-stable"</span>]:
+<span class="linenr">16: </span>        <span style="color: #4169e1;">if</span> shutil.which(b):
+<span class="linenr">17: </span>            <span style="color: #4169e1;">return</span> b
+<span class="linenr">18: </span>
+<span class="linenr">19: </span>
+<span class="linenr">20: </span><span style="color: #b8860b;">browser</span> = guess_browser()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org12506e6" class="outline-4">
+<h4 id="org12506e6"><span class="section-number-4">1.1.5.</span> mail variable</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">21: </span><span style="color: #b8860b;">mail</span> = <span style="color: #bc8f8f;">"thunderbird"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdaced30" class="outline-4">
+<h4 id="orgdaced30"><span class="section-number-4">1.1.6.</span> filemanager variable</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">22: </span><span style="color: #b8860b;">filemanager</span> = <span style="color: #bc8f8f;">"thunar"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbed02be" class="outline-4">
+<h4 id="orgbed02be"><span class="section-number-4">1.1.7.</span> Keys</h4>
+<div class="outline-text-4" id="text-1-1-7">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 23: </span><span style="color: #b8860b;">keys</span> = [
+<span class="linenr"> 24: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">A list of available commands that can be bound to keys can be found
+<span class="linenr"> 25: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">at https://docs.qtile.org/en/latest/manual/config/lazy.html
+<span class="linenr"> 26: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Switch between windows
+<span class="linenr"> 27: </span></span>    Key([mod], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.left(), desc=<span style="color: #bc8f8f;">"Move focus to left"</span>),
+<span class="linenr"> 28: </span>    Key([mod], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.right(), desc=<span style="color: #bc8f8f;">"Move focus to right"</span>),
+<span class="linenr"> 29: </span>    Key([mod], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.down(), desc=<span style="color: #bc8f8f;">"Move focus down"</span>),
+<span class="linenr"> 30: </span>    Key([mod], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.up(), desc=<span style="color: #bc8f8f;">"Move focus up"</span>),
+<span class="linenr"> 31: </span>    Key([mod], <span style="color: #bc8f8f;">"space"</span>, lazy.layout.<span style="color: #00008b;">next</span>(), desc=<span style="color: #bc8f8f;">"Move window focus to other window"</span>),
+<span class="linenr"> 32: </span>    Key([<span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"Tab"</span>, lazy.layout.<span style="color: #00008b;">next</span>(), desc=<span style="color: #bc8f8f;">"Move window focus to other window"</span>),
+<span class="linenr"> 33: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Move windows between left/right columns or move up/down in current stack.
+<span class="linenr"> 34: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Moving out of range in Columns layout will create new column.
+<span class="linenr"> 35: </span></span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.shuffle_left(), desc=<span style="color: #bc8f8f;">"Move window to the left"</span>),
+<span class="linenr"> 36: </span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.shuffle_right(), desc=<span style="color: #bc8f8f;">"Move window to the right"</span>),
+<span class="linenr"> 37: </span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.shuffle_down(), desc=<span style="color: #bc8f8f;">"Move window down"</span>),
+<span class="linenr"> 38: </span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.shuffle_up(), desc=<span style="color: #bc8f8f;">"Move window up"</span>),
+<span class="linenr"> 39: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Grow windows. If current window is on the edge of screen and direction
+<span class="linenr"> 40: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">will be to screen edge - window would shrink.
+<span class="linenr"> 41: </span></span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.grow_left(), desc=<span style="color: #bc8f8f;">"Grow window to the left"</span>),
+<span class="linenr"> 42: </span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.grow_right(), desc=<span style="color: #bc8f8f;">"Grow window to the right"</span>),
+<span class="linenr"> 43: </span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.grow_down(), desc=<span style="color: #bc8f8f;">"Grow window down"</span>),
+<span class="linenr"> 44: </span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.grow_up(), desc=<span style="color: #bc8f8f;">"Grow window up"</span>),
+<span class="linenr"> 45: </span>    Key([mod], <span style="color: #bc8f8f;">"n"</span>, lazy.layout.normalize(), desc=<span style="color: #bc8f8f;">"Reset all window sizes"</span>),
+<span class="linenr"> 46: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Toggle between split and unsplit sides of stack.
+<span class="linenr"> 47: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Split = all windows displayed
+<span class="linenr"> 48: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Unsplit = 1 window displayed, like Max layout, but still with
+<span class="linenr"> 49: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">multiple stack panes
+<span class="linenr"> 50: </span></span>    Key(
+<span class="linenr"> 51: </span>        [mod, <span style="color: #bc8f8f;">"shift"</span>],
+<span class="linenr"> 52: </span>        <span style="color: #bc8f8f;">"Return"</span>,
+<span class="linenr"> 53: </span>        lazy.layout.toggle_split(),
+<span class="linenr"> 54: </span>        desc=<span style="color: #bc8f8f;">"Toggle between split and unsplit sides of stack"</span>,
+<span class="linenr"> 55: </span>    ),
+<span class="linenr"> 56: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Toggle between different layouts as defined below
+<span class="linenr"> 57: </span></span>    Key([mod], <span style="color: #bc8f8f;">"Tab"</span>, lazy.screen.toggle_group(), desc=<span style="color: #bc8f8f;">"Toggle between groups"</span>),
+<span class="linenr"> 58: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"Tab"</span>, lazy.next_layout(), desc=<span style="color: #bc8f8f;">"Toggle between layouts"</span>),
+<span class="linenr"> 59: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+<span class="linenr"> 60: </span></span>    Key(
+<span class="linenr"> 61: </span>        [mod],
+<span class="linenr"> 62: </span>        <span style="color: #bc8f8f;">"f"</span>,
+<span class="linenr"> 63: </span>        lazy.window.toggle_fullscreen(),
+<span class="linenr"> 64: </span>        desc=<span style="color: #bc8f8f;">"Toggle fullscreen on the focused window"</span>,
+<span class="linenr"> 65: </span>    ),
+<span class="linenr"> 66: </span>    Key([mod], <span style="color: #bc8f8f;">"t"</span>, lazy.window.toggle_floating(), desc=<span style="color: #bc8f8f;">"Toggle floating on the focused window"</span>),
+<span class="linenr"> 67: </span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"r"</span>, lazy.reload_config(), desc=<span style="color: #bc8f8f;">"Reload the config"</span>),
+<span class="linenr"> 68: </span>    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"q"</span>, lazy.shutdown(), desc=<span style="color: #bc8f8f;">"Shutdown Qtile"</span>),
+<span class="linenr"> 69: </span>    Key([mod], <span style="color: #bc8f8f;">"r"</span>, lazy.spawncmd(), desc=<span style="color: #bc8f8f;">"Spawn a command using a prompt widget"</span>),
+<span class="linenr"> 70: </span>    Key([mod], <span style="color: #bc8f8f;">"bracketleft"</span>, lazy.to_screen(0)),
+<span class="linenr"> 71: </span>    Key([mod], <span style="color: #bc8f8f;">"bracketright"</span>, lazy.to_screen(1)),
+<span class="linenr"> 72: </span>
+<span class="linenr"> 73: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioRaiseVolume"</span>,
+<span class="linenr"> 74: </span>        lazy.spawn(<span style="color: #bc8f8f;">"pactl set-sink-volume @DEFAULT_SINK@ +10%"</span>), desc=<span style="color: #bc8f8f;">"Raise Volume Up"</span>),
+<span class="linenr"> 75: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioLowerVolume"</span>,
+<span class="linenr"> 76: </span>        lazy.spawn(<span style="color: #bc8f8f;">"pactl set-sink-volume @DEFAULT_SINK@ -10%"</span>), desc=<span style="color: #bc8f8f;">"Raise Volume Down"</span>),
+<span class="linenr"> 77: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioMute"</span>,
+<span class="linenr"> 78: </span>        lazy.spawn(<span style="color: #bc8f8f;">"pactl set-sink-mute @DEFAULT_SINK@ toggle"</span>), desc=<span style="color: #bc8f8f;">"Toggle Audio Mute"</span>),
+<span class="linenr"> 79: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioMicMute"</span>,
+<span class="linenr"> 80: </span>        lazy.spawn(<span style="color: #bc8f8f;">"pactl set-source-mute @DEFAULT_SOURCE@ toggle"</span>), desc=<span style="color: #bc8f8f;">"Toggle Audio Mic Mute"</span>),
+<span class="linenr"> 81: </span>
+<span class="linenr"> 82: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioPlay"</span>,
+<span class="linenr"> 83: </span>        lazy.spawn(<span style="color: #bc8f8f;">"playerctl play-pause"</span>), desc=<span style="color: #bc8f8f;">"Toggle play/pause"</span>),
+<span class="linenr"> 84: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioPrev"</span>,
+<span class="linenr"> 85: </span>        lazy.spawn(<span style="color: #bc8f8f;">"playerctl previous"</span>), desc=<span style="color: #bc8f8f;">"Previous"</span>),
+<span class="linenr"> 86: </span>    Key([], <span style="color: #bc8f8f;">"XF86AudioNext"</span>,
+<span class="linenr"> 87: </span>        lazy.spawn(<span style="color: #bc8f8f;">"playerctl next"</span>), desc=<span style="color: #bc8f8f;">"Next"</span>),
+<span class="linenr"> 88: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">TODO: XF86Tools for Audio
+<span class="linenr"> 89: </span></span>    Key([], <span style="color: #bc8f8f;">"XF86Calculator"</span>,
+<span class="linenr"> 90: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi -show calc -modi calc -no-show-match -no-sort"</span>), desc=<span style="color: #bc8f8f;">"Calculator"</span>),
+<span class="linenr"> 91: </span>
+<span class="linenr"> 92: </span>    Key([], <span style="color: #bc8f8f;">"XF86HomePage"</span>,
+<span class="linenr"> 93: </span>        lazy.spawn(browser), desc=<span style="color: #bc8f8f;">"Browser"</span>),
+<span class="linenr"> 94: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"b"</span>,
+<span class="linenr"> 95: </span>        lazy.spawn(browser), desc=<span style="color: #bc8f8f;">"Browser"</span>),
+<span class="linenr"> 96: </span>    Key([], <span style="color: #bc8f8f;">"XF86Mail"</span>,
+<span class="linenr"> 97: </span>        lazy.spawn(mail), desc=<span style="color: #bc8f8f;">"Mail Client"</span>),
+<span class="linenr"> 98: </span>    Key([], <span style="color: #bc8f8f;">"XF86Search"</span>,
+<span class="linenr"> 99: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi-search"</span>), desc=<span style="color: #bc8f8f;">"Search"</span>),
+<span class="linenr">100: </span>
+<span class="linenr">101: </span>    Key([], <span style="color: #bc8f8f;">"Print"</span>,
+<span class="linenr">102: </span>        lazy.spawn(<span style="color: #bc8f8f;">"flameshot gui"</span>), desc=<span style="color: #bc8f8f;">"flameshot"</span>),
+<span class="linenr">103: </span>
+<span class="linenr">104: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"v"</span>, lazy.spawn(<span style="color: #bc8f8f;">"neovide"</span>), desc=<span style="color: #bc8f8f;">"neovide"</span>),
+<span class="linenr">105: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"p"</span>, lazy.spawn(<span style="color: #bc8f8f;">"rofi-pass"</span>), desc=<span style="color: #bc8f8f;">"rofi pass"</span>),
+<span class="linenr">106: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"n"</span>, lazy.spawn(<span style="color: #bc8f8f;">"emacsclient -c -a emacs"</span>), desc=<span style="color: #bc8f8f;">"emacs"</span>),
+<span class="linenr">107: </span>    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"s"</span>, lazy.spawn(<span style="color: #bc8f8f;">"screenkey"</span>), desc=<span style="color: #bc8f8f;">"screenkey"</span>),
+<span class="linenr">108: </span>
+<span class="linenr">109: </span>    Key([mod], <span style="color: #bc8f8f;">"e"</span>, lazy.spawn(filemanager), desc=<span style="color: #bc8f8f;">"file-manager"</span>),
+<span class="linenr">110: </span>    Key([mod], <span style="color: #bc8f8f;">"Return"</span>, lazy.spawn(terminal), desc=<span style="color: #bc8f8f;">"Launch terminal"</span>),
+<span class="linenr">111: </span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"Return"</span>, lazy.spawn(f<span style="color: #bc8f8f;">"</span>{terminal}<span style="color: #bc8f8f;"> -e tmux new -A -s main"</span>), desc=<span style="color: #bc8f8f;">"Tmux"</span>),
+<span class="linenr">112: </span>    Key([<span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"F4"</span>, lazy.window.kill(), desc=<span style="color: #bc8f8f;">"kill focused window"</span>),
+<span class="linenr">113: </span>    Key([mod], <span style="color: #bc8f8f;">"F4"</span>, lazy.window.kill(), desc=<span style="color: #bc8f8f;">"kill focused window"</span>),
+<span class="linenr">114: </span>    Key([mod], <span style="color: #bc8f8f;">"d"</span>, lazy.spawn(<span style="color: #bc8f8f;">"rofi -show drun"</span>), desc=<span style="color: #bc8f8f;">"rofi menu"</span>),
+<span class="linenr">115: </span>    Key([mod], <span style="color: #bc8f8f;">"c"</span>,
+<span class="linenr">116: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi -modi 'clipboard:greenclip print' -show clipboard"</span>),
+<span class="linenr">117: </span>        desc=<span style="color: #bc8f8f;">"rofi greenclip"</span>),
+<span class="linenr">118: </span>    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"w"</span>,
+<span class="linenr">119: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi -show windowcd"</span>), desc=<span style="color: #bc8f8f;">"rofi windowcd"</span>),
+<span class="linenr">120: </span>    Key([mod], <span style="color: #bc8f8f;">"w"</span>,
+<span class="linenr">121: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi -show window"</span>), desc=<span style="color: #bc8f8f;">"rofi window"</span>),
+<span class="linenr">122: </span>    Key([mod], <span style="color: #bc8f8f;">"q"</span>,
+<span class="linenr">123: </span>        lazy.spawn(<span style="color: #bc8f8f;">"rofi -show p -modi p:'rofi-power-menu --symbols-font \"Symbols Nerd Font Mono\"' -font 'OverpassM Nerd Font Mono' -theme catppuccin-default -theme-str 'window {width: 8em;} listview {lines: 6;}'"</span>), desc=<span style="color: #bc8f8f;">"rofi-power-menu"</span>),
+<span class="linenr">124: </span>    Key([mod], <span style="color: #bc8f8f;">"period"</span>, lazy.spawn(<span style="color: #bc8f8f;">"rofimoji"</span>), desc=<span style="color: #bc8f8f;">"rofimoji"</span>),
+<span class="linenr">125: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Key([mod, "shift"], "t", lazy.spawn(ocr()), desc="ocr"),
+<span class="linenr">126: </span></span>]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6320842" class="outline-4">
+<h4 id="org6320842"><span class="section-number-4">1.1.8.</span> Switch VTs in wayland</h4>
+<div class="outline-text-4" id="text-1-1-8">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">127: </span><span style="color: #4169e1;">for</span> vt <span style="color: #4169e1;">in</span> <span style="color: #00008b;">range</span>(1, 8):
+<span class="linenr">128: </span>    keys.append(
+<span class="linenr">129: </span>        Key(
+<span class="linenr">130: </span>            [<span style="color: #bc8f8f;">"control"</span>, <span style="color: #bc8f8f;">"mod1"</span>],
+<span class="linenr">131: </span>            f<span style="color: #bc8f8f;">"f</span>{vt}<span style="color: #bc8f8f;">"</span>,
+<span class="linenr">132: </span>            lazy.core.change_vt(vt).when(func=<span style="color: #4169e1;">lambda</span>: qtile.core.name == <span style="color: #bc8f8f;">"wayland"</span>),
+<span class="linenr">133: </span>            desc=f<span style="color: #bc8f8f;">"Switch to VT</span>{vt}<span style="color: #bc8f8f;">"</span>,
+<span class="linenr">134: </span>        )
+<span class="linenr">135: </span>    )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0a0462" class="outline-4">
+<h4 id="orge0a0462"><span class="section-number-4">1.1.9.</span> groups</h4>
+<div class="outline-text-4" id="text-1-1-9">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">136: </span><span style="color: #b8860b;">groups</span> = [Group(i) <span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> <span style="color: #bc8f8f;">"123456789"</span>]
+<span class="linenr">137: </span>
+<span class="linenr">138: </span><span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> groups:
+<span class="linenr">139: </span>    keys.extend(
+<span class="linenr">140: </span>        [
+<span class="linenr">141: </span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod + group number = switch to group
+<span class="linenr">142: </span></span>            Key(
+<span class="linenr">143: </span>                [mod],
+<span class="linenr">144: </span>                i.name,
+<span class="linenr">145: </span>                lazy.group[i.name].toscreen(),
+<span class="linenr">146: </span>                desc=f<span style="color: #bc8f8f;">"Switch to group </span>{i.name}<span style="color: #bc8f8f;">"</span>,
+<span class="linenr">147: </span>            ),
+<span class="linenr">148: </span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod + shift + group number = switch to &amp; move focused window to group
+<span class="linenr">149: </span></span>            Key(
+<span class="linenr">150: </span>                [mod, <span style="color: #bc8f8f;">"shift"</span>],
+<span class="linenr">151: </span>                i.name,
+<span class="linenr">152: </span>                lazy.window.togroup(i.name, switch_group=<span style="color: #5f9ea0;">True</span>),
+<span class="linenr">153: </span>                desc=f<span style="color: #bc8f8f;">"Switch to &amp; move focused window to group </span>{i.name}<span style="color: #bc8f8f;">"</span>,
+<span class="linenr">154: </span>            ),
+<span class="linenr">155: </span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">Or, use below if you prefer not to switch to that group.
+<span class="linenr">156: </span></span>            <span style="color: #b22222;"># </span><span style="color: #b22222;"># mod + shift + group number = move focused window to group
+<span class="linenr">157: </span></span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+<span class="linenr">158: </span></span>            <span style="color: #b22222;">#     </span><span style="color: #b22222;">desc="move focused window to group {}".format(i.name)),
+<span class="linenr">159: </span></span>        ]
+<span class="linenr">160: </span>    )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0962f5f" class="outline-4">
+<h4 id="org0962f5f"><span class="section-number-4">1.1.10.</span> layouts</h4>
+<div class="outline-text-4" id="text-1-1-10">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">161: </span><span style="color: #b8860b;">layouts</span> = [
+<span class="linenr">162: </span>    layout.Columns(border_focus_stack=[<span style="color: #bc8f8f;">"#d75f5f"</span>, <span style="color: #bc8f8f;">"#8f3d3d"</span>], border_width=4),
+<span class="linenr">163: </span>    layout.Max(),
+<span class="linenr">164: </span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">Try more layouts by unleashing below layouts.
+<span class="linenr">165: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Stack(num_stacks=2),
+<span class="linenr">166: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Bsp(),
+<span class="linenr">167: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Matrix(),
+<span class="linenr">168: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadTall(),
+<span class="linenr">169: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadWide(),
+<span class="linenr">170: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.RatioTile(),
+<span class="linenr">171: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Tile(),
+<span class="linenr">172: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.TreeTab(),
+<span class="linenr">173: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.VerticalTile(),
+<span class="linenr">174: </span></span>    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Zoomy(),
+<span class="linenr">175: </span></span>]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdca0fbe" class="outline-4">
+<h4 id="orgdca0fbe"><span class="section-number-4">1.1.11.</span> widget and extension defaults</h4>
+<div class="outline-text-4" id="text-1-1-11">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">176: </span><span style="color: #b8860b;">widget_defaults</span> = <span style="color: #00008b;">dict</span>(
+<span class="linenr">177: </span>    font=<span style="color: #bc8f8f;">"OverpassM Nerd Font Mono"</span>,
+<span class="linenr">178: </span>    fontsize=12,
+<span class="linenr">179: </span>    padding=3,
+<span class="linenr">180: </span>)
+<span class="linenr">181: </span><span style="color: #b8860b;">extension_defaults</span> = widget_defaults.copy()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8e082a" class="outline-4">
+<h4 id="orga8e082a"><span class="section-number-4">1.1.12.</span> screens</h4>
+<div class="outline-text-4" id="text-1-1-12">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">182: </span><span style="color: #b8860b;">logo</span> = os.path.join(os.path.dirname(libqtile.resources.__file__), <span style="color: #bc8f8f;">"logo.png"</span>)
+<span class="linenr">183: </span><span style="color: #b8860b;">screens</span> = [
+<span class="linenr">184: </span>    Screen(
+<span class="linenr">185: </span>        bottom=bar.Bar(
+<span class="linenr">186: </span>            [
+<span class="linenr">187: </span>                widget.CurrentLayout(),
+<span class="linenr">188: </span>                widget.GroupBox(),
+<span class="linenr">189: </span>                widget.Prompt(),
+<span class="linenr">190: </span>                widget.WindowName(),
+<span class="linenr">191: </span>                widget.CurrentScreen(),
+<span class="linenr">192: </span>                widget.Chord(
+<span class="linenr">193: </span>                    chords_colors={
+<span class="linenr">194: </span>                        <span style="color: #bc8f8f;">"launch"</span>: (<span style="color: #bc8f8f;">"#ff0000"</span>, <span style="color: #bc8f8f;">"#ffffff"</span>),
+<span class="linenr">195: </span>                    },
+<span class="linenr">196: </span>                    name_transform=<span style="color: #4169e1;">lambda</span> name: name.upper(),
+<span class="linenr">197: </span>                ),
+<span class="linenr">198: </span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.TextBox("default config", name="default"),
+<span class="linenr">199: </span></span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.TextBox("Press &amp;lt;M-r&amp;gt; to spawn", foreground="#d75f5f"),
+<span class="linenr">200: </span></span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+<span class="linenr">201: </span></span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.StatusNotifier(),
+<span class="linenr">202: </span></span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.TunedManager(),
+<span class="linenr">203: </span></span>                widget.CapsNumLockIndicator(),
+<span class="linenr">204: </span>                widget.ThermalZone(),
+<span class="linenr">205: </span>                widget.PulseVolume(),
+<span class="linenr">206: </span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.Volume(
+<span class="linenr">207: </span></span>                <span style="color: #b22222;">#     </span><span style="color: #b22222;">volume_down_command="pactl set-sink-volume @DEFAULT_SINK@ -10%",
+<span class="linenr">208: </span></span>                <span style="color: #b22222;">#     </span><span style="color: #b22222;">volume_up_command="pactl set-sink-volume @DEFAULT_SINK@ +10%",
+<span class="linenr">209: </span></span>                <span style="color: #b22222;">#     </span><span style="color: #b22222;">volume_app="pavucontrol",
+<span class="linenr">210: </span></span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">),
+<span class="linenr">211: </span></span>                widget.Clock(<span style="color: #00008b;">format</span>=<span style="color: #bc8f8f;">"%Y-%m-%d %a %I:%M %p"</span>),
+<span class="linenr">212: </span>                widget.QuickExit(),
+<span class="linenr">213: </span>                widget.Systray(),
+<span class="linenr">214: </span>            ],
+<span class="linenr">215: </span>            24,
+<span class="linenr">216: </span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+<span class="linenr">217: </span></span>            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+<span class="linenr">218: </span></span>        ),
+<span class="linenr">219: </span>        background=<span style="color: #bc8f8f;">"#000000"</span>,
+<span class="linenr">220: </span>        wallpaper=logo,
+<span class="linenr">221: </span>        wallpaper_mode=<span style="color: #bc8f8f;">"center"</span>,
+<span class="linenr">222: </span>        <span style="color: #b22222;"># </span><span style="color: #b22222;">You can uncomment this variable if you see that on X11 floating resize/moving is laggy
+<span class="linenr">223: </span></span>        <span style="color: #b22222;"># </span><span style="color: #b22222;">By default we handle these events delayed to already improve performance, however your system might still be struggling
+<span class="linenr">224: </span></span>        <span style="color: #b22222;"># </span><span style="color: #b22222;">This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
+<span class="linenr">225: </span></span>        <span style="color: #b22222;"># </span><span style="color: #b22222;">x11_drag_polling_rate = 60,
+<span class="linenr">226: </span></span>    ),
+<span class="linenr">227: </span>    Screen(
+<span class="linenr">228: </span>        bottom=bar.Bar(
+<span class="linenr">229: </span>            [
+<span class="linenr">230: </span>                widget.WindowName(),
+<span class="linenr">231: </span>                widget.CurrentScreen(),
+<span class="linenr">232: </span>                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.Canto(),
+<span class="linenr">233: </span></span>            ],
+<span class="linenr">234: </span>            24,
+<span class="linenr">235: </span>        ),
+<span class="linenr">236: </span>        background=<span style="color: #bc8f8f;">"#000000"</span>,
+<span class="linenr">237: </span>        wallpaper=logo,
+<span class="linenr">238: </span>        wallpaper_mode=<span style="color: #bc8f8f;">"center"</span>,
+<span class="linenr">239: </span>    ),
+<span class="linenr">240: </span>]
+<span class="linenr">241: </span>
+<span class="linenr">242: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Instead of screens, you can define a function here to specify which Screen
+<span class="linenr">243: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">should correspond to which Output.
+<span class="linenr">244: </span></span>fake_screens: <span style="color: #00008b;">list</span>[Screen] | <span style="color: #5f9ea0;">None</span> = <span style="color: #5f9ea0;">None</span>
+<span class="linenr">245: </span>
+<span class="linenr">246: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Instead of screens or fake screens, you can define a function here that
+<span class="linenr">247: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">returns a list of Screen objects based on the list of Outputs; that way you
+<span class="linenr">248: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">can decide based on e.g. the number of screens, or which ports are plugged
+<span class="linenr">249: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">in exactly what do render in each bar for each screen.
+<span class="linenr">250: </span></span>generate_screens: Callable[[<span style="color: #00008b;">list</span>[Output]], <span style="color: #00008b;">list</span>[Screen]] | <span style="color: #5f9ea0;">None</span> = <span style="color: #5f9ea0;">None</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga429439" class="outline-4">
+<h4 id="orga429439"><span class="section-number-4">1.1.13.</span> mouse - drag floating layouts</h4>
+<div class="outline-text-4" id="text-1-1-13">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">251: </span><span style="color: #b8860b;">mouse</span> = [
+<span class="linenr">252: </span>    Drag([mod], <span style="color: #bc8f8f;">"Button1"</span>, lazy.window.set_position_floating(), start=lazy.window.get_position()),
+<span class="linenr">253: </span>    Drag([mod], <span style="color: #bc8f8f;">"Button3"</span>, lazy.window.set_size_floating(), start=lazy.window.get_size()),
+<span class="linenr">254: </span>    Click([mod], <span style="color: #bc8f8f;">"Button2"</span>, lazy.window.bring_to_front()),
+<span class="linenr">255: </span>]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb34fbc4" class="outline-4">
+<h4 id="orgb34fbc4"><span class="section-number-4">1.1.14.</span> misc</h4>
+<div class="outline-text-4" id="text-1-1-14">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">256: </span><span style="color: #b8860b;">dgroups_key_binder</span> = <span style="color: #5f9ea0;">None</span>
+<span class="linenr">257: </span><span style="color: #b8860b;">dgroups_app_rules</span> = []  <span style="color: #b22222;"># </span><span style="color: #b22222;">type: list
+<span class="linenr">258: </span></span><span style="color: #b8860b;">follow_mouse_focus</span> = <span style="color: #5f9ea0;">True</span>
+<span class="linenr">259: </span><span style="color: #b8860b;">bring_front_click</span> = <span style="color: #5f9ea0;">False</span>
+<span class="linenr">260: </span><span style="color: #b8860b;">floats_kept_above</span> = <span style="color: #5f9ea0;">True</span>
+<span class="linenr">261: </span><span style="color: #b8860b;">cursor_warp</span> = <span style="color: #5f9ea0;">False</span>
+<span class="linenr">262: </span><span style="color: #b8860b;">auto_fullscreen</span> = <span style="color: #5f9ea0;">True</span>
+<span class="linenr">263: </span><span style="color: #b8860b;">focus_on_window_activation</span> = <span style="color: #bc8f8f;">"smart"</span>
+<span class="linenr">264: </span><span style="color: #b8860b;">focus_previous_on_window_remove</span> = <span style="color: #5f9ea0;">False</span>
+<span class="linenr">265: </span><span style="color: #b8860b;">reconfigure_screens</span> = <span style="color: #5f9ea0;">True</span>
+<span class="linenr">266: </span>
+<span class="linenr">267: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">If things like steam games want to auto-minimize themselves when losing
+<span class="linenr">268: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">focus, should we respect this or not?
+<span class="linenr">269: </span></span><span style="color: #b8860b;">auto_minimize</span> = <span style="color: #5f9ea0;">True</span>
+<span class="linenr">270: </span>
+<span class="linenr">271: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">When using the Wayland backend, this can be used to configure input devices.
+<span class="linenr">272: </span></span><span style="color: #b8860b;">wl_input_rules</span> = <span style="color: #5f9ea0;">None</span>
+<span class="linenr">273: </span>
+<span class="linenr">274: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">xcursor theme (string or None) and size (integer) for Wayland backend
+<span class="linenr">275: </span></span><span style="color: #b8860b;">wl_xcursor_theme</span> = <span style="color: #5f9ea0;">None</span>
+<span class="linenr">276: </span><span style="color: #b8860b;">wl_xcursor_size</span> = 24
+<span class="linenr">277: </span>
+<span class="linenr">278: </span><span style="color: #b8860b;">idle_timers</span> = []  <span style="color: #b22222;"># </span><span style="color: #b22222;">type: list
+<span class="linenr">279: </span></span><span style="color: #b8860b;">idle_inhibitors</span> = []  <span style="color: #b22222;"># </span><span style="color: #b22222;">type: list
+<span class="linenr">280: </span></span>
+<span class="linenr">281: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+<span class="linenr">282: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">string besides java UI toolkits; you can see several discussions on the
+<span class="linenr">283: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">mailing lists, GitHub issues, and other WM documentation that suggest setting
+<span class="linenr">284: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">this string if your java app doesn't work correctly. We may as well just lie
+<span class="linenr">285: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">and say that we're a working one by default.
+<span class="linenr">286: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">287: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+<span class="linenr">288: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">java that happens to be on java's whitelist.
+<span class="linenr">289: </span></span><span style="color: #b8860b;">wmname</span> = <span style="color: #bc8f8f;">"LG3D"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdf5fc8d" class="outline-4">
+<h4 id="orgdf5fc8d"><span class="section-number-4">1.1.15.</span> float rules</h4>
+<div class="outline-text-4" id="text-1-1-15">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">290: </span><span style="color: #b8860b;">floating_layout</span> = layout.Floating(
+<span class="linenr">291: </span>    float_rules=[
+<span class="linenr">292: </span>        <span style="color: #b22222;"># </span><span style="color: #b22222;">Run the utility of `xprop` to see the wm class and name of an X client.
+<span class="linenr">293: </span></span>        *layout.Floating.default_float_rules,
+<span class="linenr">294: </span>        Match(wm_class=<span style="color: #bc8f8f;">"confirmreset"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk
+<span class="linenr">295: </span></span>        Match(wm_class=<span style="color: #bc8f8f;">"makebranch"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk
+<span class="linenr">296: </span></span>        Match(wm_class=<span style="color: #bc8f8f;">"maketag"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk
+<span class="linenr">297: </span></span>        Match(wm_class=<span style="color: #bc8f8f;">"ssh-askpass"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">ssh-askpass
+<span class="linenr">298: </span></span>        Match(title=<span style="color: #bc8f8f;">"branchdialog"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk
+<span class="linenr">299: </span></span>        Match(title=<span style="color: #bc8f8f;">"pinentry"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">GPG key password entry
+<span class="linenr">300: </span></span>    ]
+<span class="linenr">301: </span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8866047" class="outline-4">
+<h4 id="org8866047"><span class="section-number-4">1.1.16.</span> startups</h4>
+<div class="outline-text-4" id="text-1-1-16">
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">302: </span><span style="color: #b8860b;">STARTUP_COMMANDS</span> = [
+<span class="linenr">303: </span>    <span style="color: #bc8f8f;">"dbus-update-activation-environment --all"</span>
+<span class="linenr">304: </span>    <span style="color: #bc8f8f;">"xsetroot -cursor_name left_ptr"</span>,
+<span class="linenr">305: </span>    <span style="color: #bc8f8f;">"xset r rate 500 25"</span>,
+<span class="linenr">306: </span>    <span style="color: #bc8f8f;">"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &amp;"</span>,
+<span class="linenr">307: </span>    <span style="color: #bc8f8f;">"picom -b &amp;"</span>,
+<span class="linenr">308: </span>    <span style="color: #bc8f8f;">"greenclip daemon&gt;/dev/null &amp;"</span>,
+<span class="linenr">309: </span>    <span style="color: #bc8f8f;">"thunar --daemon &amp;"</span>,
+<span class="linenr">310: </span>    <span style="color: #bc8f8f;">"unclutter &amp;"</span>,
+<span class="linenr">311: </span>    <span style="color: #bc8f8f;">"nm-applet &amp; "</span>,
+<span class="linenr">312: </span>    <span style="color: #bc8f8f;">"~/.fehbg &amp;"</span>,
+<span class="linenr">313: </span>    <span style="color: #bc8f8f;">"emacs --daemon &amp;"</span>,
+<span class="linenr">314: </span>    <span style="color: #bc8f8f;">"systemctl --user start xsettingsd"</span>
+<span class="linenr">315: </span>]
+<span class="linenr">316: </span>
+<span class="linenr">317: </span>
+<span class="linenr">318: </span><span style="color: #228b22;">@hook.subscribe.startup_once</span>
+<span class="linenr">319: </span><span style="color: #4169e1;">def</span> <span style="color: #0000ff;">autostart</span>():
+<span class="linenr">320: </span>    <span style="color: #bc8f8f;">"""Stuffs to autostart."""</span>
+<span class="linenr">321: </span>    <span style="color: #4169e1;">for</span> cmd <span style="color: #4169e1;">in</span> STARTUP_COMMANDS:
+<span class="linenr">322: </span>        os.system(cmd)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb7dc2e3" class="outline-2">
+<h2 id="orgb7dc2e3"><span class="section-number-2">2.</span> Picom</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgfc3e3aa" class="outline-3">
+<h3 id="orgfc3e3aa"><span class="section-number-3">2.1.</span> picom.conf</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org427e0cd" class="outline-4">
+<h4 id="org427e0cd"><span class="section-number-4">2.1.1.</span> shadows</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Enabled client-side shadows on windows. Note desktop windows
+<span class="linenr"> 2: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">(windows with '_NET_WM_WINDOW_TYPE_DESKTOP') never get shadow,
+<span class="linenr"> 3: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">unless explicitly requested using the wintypes option.
+<span class="linenr"> 4: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 5: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Can be set per-window using rules.
+<span class="linenr"> 6: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 7: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr"> 8: </span></span><span style="color: #b8860b;">shadow</span> = true;
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">The blur radius for shadows, in pixels.
+<span class="linenr">11: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">12: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 12
+<span class="linenr">13: </span></span><span style="color: #b8860b;">shadow-radius</span> = 7;
+<span class="linenr">14: </span>
+<span class="linenr">15: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">The opacity of shadows.
+<span class="linenr">16: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">17: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Range: 0.0 - 1.0
+<span class="linenr">18: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 0.75
+<span class="linenr">19: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">shadow-opacity = .75
+<span class="linenr">20: </span></span>
+<span class="linenr">21: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">The left offset for shadows, in pixels.
+<span class="linenr">22: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">23: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: -15
+<span class="linenr">24: </span></span><span style="color: #b8860b;">shadow-offset-x</span> = -7;
+<span class="linenr">25: </span>
+<span class="linenr">26: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">The top offset for shadows, in pixels.
+<span class="linenr">27: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">28: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: -15
+<span class="linenr">29: </span></span><span style="color: #b8860b;">shadow-offset-y</span> = -7;
+<span class="linenr">30: </span>
+<span class="linenr">31: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Hex string color value of shadow. Formatted like "#RRGGBB", e.g. "#C0FFEE".
+<span class="linenr">32: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">33: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: #000000
+<span class="linenr">34: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">shadow-color = "#000000"
+<span class="linenr">35: </span></span>
+<span class="linenr">36: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Crop shadow of a window fully on a particular monitor to that monitor. This is
+<span class="linenr">37: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">currently implemented using the X RandR extension.
+<span class="linenr">38: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">39: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">40: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">crop-shadow-to-monitor = false</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff185b7" class="outline-4">
+<h4 id="orgff185b7"><span class="section-number-4">2.1.2.</span> fading</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">41: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Fade windows in/out when opening/closing and when opacity changes,
+<span class="linenr">42: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">unless no-fading-openclose is used. Can be set per-window using rules.
+<span class="linenr">43: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">44: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">45: </span></span><span style="color: #b8860b;">fading</span> = true;
+<span class="linenr">46: </span>
+<span class="linenr">47: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
+<span class="linenr">48: </span></span><span style="color: #b8860b;">fade-in-step</span> = 0.03;
+<span class="linenr">49: </span>
+<span class="linenr">50: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Opacity change between steps while fading out. (0.01 - 1.0, defaults to 0.03)
+<span class="linenr">51: </span></span><span style="color: #b8860b;">fade-out-step</span> = 0.03;
+<span class="linenr">52: </span>
+<span class="linenr">53: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">The time between steps in fade step, in milliseconds. (&gt; 0, defaults to 10)
+<span class="linenr">54: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">fade-delta = 10
+<span class="linenr">55: </span></span>
+<span class="linenr">56: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Do not fade on window open/close.
+<span class="linenr">57: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">no-fading-openclose = false
+<span class="linenr">58: </span></span>
+<span class="linenr">59: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Do not fade destroyed ARGB windows with WM frame. Workaround of bugs in Openbox, Fluxbox, etc.
+<span class="linenr">60: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">no-fading-destroyed-argb = false</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb838b18" class="outline-4">
+<h4 id="orgb838b18"><span class="section-number-4">2.1.3.</span> transparency / opacity</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">61: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Opacity of window titlebars and borders.
+<span class="linenr">62: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">63: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Range: 0.1 - 1.0
+<span class="linenr">64: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 1.0 (disabled)
+<span class="linenr">65: </span></span><span style="color: #b8860b;">frame-opacity</span> = 0.9;
+<span class="linenr">66: </span>
+<span class="linenr">67: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use fixed inactive dim value, instead of adjusting according to window opacity.
+<span class="linenr">68: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">69: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">70: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">inactive-dim-fixed = true</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdfb7a17" class="outline-4">
+<h4 id="orgdfb7a17"><span class="section-number-4">2.1.4.</span> corners</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">71: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Sets the radius of rounded window corners. When &gt; 0, the compositor will
+<span class="linenr">72: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">round the corners of windows. Does not interact well with
+<span class="linenr">73: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">`transparent-clipping`.
+<span class="linenr">74: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">75: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 0 (disabled)
+<span class="linenr">76: </span></span><span style="color: #b8860b;">corner-radius</span> = 0
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org66abe82" class="outline-4">
+<h4 id="org66abe82"><span class="section-number-4">2.1.5.</span> blur</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr"> 77: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Parameters for background blurring, see BLUR section in the man page for more information.
+<span class="linenr"> 78: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-method =
+<span class="linenr"> 79: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-size = 12
+<span class="linenr"> 80: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 81: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-deviation = false
+<span class="linenr"> 82: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 83: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-strength = 5
+<span class="linenr"> 84: </span></span>
+<span class="linenr"> 85: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Blur background of semi-transparent / ARGB windows.
+<span class="linenr"> 86: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Can be set per-window using rules.
+<span class="linenr"> 87: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 88: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr"> 89: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-background = false
+<span class="linenr"> 90: </span></span>
+<span class="linenr"> 91: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Blur background of windows when the window frame is not opaque.
+<span class="linenr"> 92: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Implies:
+<span class="linenr"> 93: </span></span><span style="color: #b22222;">#    </span><span style="color: #b22222;">blur-background
+<span class="linenr"> 94: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr"> 95: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr"> 96: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-background-frame = false
+<span class="linenr"> 97: </span></span>
+<span class="linenr"> 98: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use fixed blur strength rather than adjusting according to window opacity.
+<span class="linenr"> 99: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">100: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">101: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">blur-background-fixed = false
+<span class="linenr">102: </span></span>
+<span class="linenr">103: </span>
+<span class="linenr">104: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Specify the blur convolution kernel, with the following format:
+<span class="linenr">105: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">example:
+<span class="linenr">106: </span></span><span style="color: #b22222;">#   </span><span style="color: #b22222;">blur-kern = "5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
+<span class="linenr">107: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Can also be a pre-defined kernel, see the man page.
+<span class="linenr">108: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">109: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: ""
+<span class="linenr">110: </span></span><span style="color: #b8860b;">blur-kern</span> = <span style="color: #bc8f8f;">"3x3box"</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd611e4" class="outline-4">
+<h4 id="orgfd611e4"><span class="section-number-4">2.1.6.</span> general settings</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">111: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Enable remote control via D-Bus. See the man page for more details.
+<span class="linenr">112: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">113: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">114: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">dbus = true
+<span class="linenr">115: </span></span>
+<span class="linenr">116: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Daemonize process. Fork to background after initialization. Causes issues with certain (badly-written) drivers.
+<span class="linenr">117: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">daemon = false
+<span class="linenr">118: </span></span>
+<span class="linenr">119: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Specify the backend to use: `xrender`, `glx`, or `egl`.
+<span class="linenr">120: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">121: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: "xrender"
+<span class="linenr">122: </span></span><span style="color: #b8860b;">backend</span> = <span style="color: #bc8f8f;">"xrender"</span>
+<span class="linenr">123: </span>
+<span class="linenr">124: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use higher precision during rendering, and apply dither when presenting the
+<span class="linenr">125: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">rendered screen. Reduces banding artifacts, but may cause performance
+<span class="linenr">126: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">degradation. Only works with OpenGL.
+<span class="linenr">127: </span></span><span style="color: #b8860b;">dithered-present</span> = false;
+<span class="linenr">128: </span>
+<span class="linenr">129: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Enable/disable VSync.
+<span class="linenr">130: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">131: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">132: </span></span><span style="color: #b8860b;">vsync</span> = true;
+<span class="linenr">133: </span>
+<span class="linenr">134: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Try to detect windows with rounded corners and don't consider them
+<span class="linenr">135: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">shaped windows. The accuracy is not very high, unfortunately.
+<span class="linenr">136: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">137: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Has nothing to do with `corner-radius`.
+<span class="linenr">138: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">139: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">140: </span></span><span style="color: #b8860b;">detect-rounded-corners</span> = true;
+<span class="linenr">141: </span>
+<span class="linenr">142: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Detect '_NET_WM_WINDOW_OPACITY' on client windows, useful for window managers
+<span class="linenr">143: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">not passing '_NET_WM_WINDOW_OPACITY' of client windows to frame windows.
+<span class="linenr">144: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">145: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">146: </span></span><span style="color: #b8860b;">detect-client-opacity</span> = true;
+<span class="linenr">147: </span>
+<span class="linenr">148: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use EWMH '_NET_ACTIVE_WINDOW' to determine currently focused window,
+<span class="linenr">149: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">rather than listening to 'FocusIn'/'FocusOut' event. May be more accurate,
+<span class="linenr">150: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">provided that the WM supports it.
+<span class="linenr">151: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">152: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">153: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">use-ewmh-active-win = false
+<span class="linenr">154: </span></span>
+<span class="linenr">155: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Unredirect all windows if a full-screen opaque window is detected,
+<span class="linenr">156: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">to maximize performance for full-screen windows. Known to cause flickering
+<span class="linenr">157: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">when redirecting/unredirecting windows.
+<span class="linenr">158: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">159: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">160: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">unredir-if-possible = false
+<span class="linenr">161: </span></span>
+<span class="linenr">162: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Delay before unredirecting the window, in milliseconds.
+<span class="linenr">163: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">164: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 0.
+<span class="linenr">165: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">unredir-if-possible-delay = 0
+<span class="linenr">166: </span></span>
+<span class="linenr">167: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use 'WM_TRANSIENT_FOR' to group windows, and consider windows
+<span class="linenr">168: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">in the same group focused at the same time.
+<span class="linenr">169: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">170: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">171: </span></span><span style="color: #b8860b;">detect-transient</span> = true;
+<span class="linenr">172: </span>
+<span class="linenr">173: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use 'WM_CLIENT_LEADER' to group windows, and consider windows in the same
+<span class="linenr">174: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">group focused at the same time. This usually means windows from the same application
+<span class="linenr">175: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">will be considered focused or unfocused at the same time.
+<span class="linenr">176: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">'WM_TRANSIENT_FOR' has higher priority if detect-transient is enabled, too.
+<span class="linenr">177: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">178: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">179: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">detect-client-leader = false
+<span class="linenr">180: </span></span>
+<span class="linenr">181: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use of damage information for rendering. This cause the only the part of the
+<span class="linenr">182: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">screen that has actually changed to be redrawn, instead of the whole screen
+<span class="linenr">183: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">every time. Should improve performance.
+<span class="linenr">184: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">185: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">186: </span></span><span style="color: #b8860b;">use-damage</span> = true;
+<span class="linenr">187: </span>
+<span class="linenr">188: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Use X Sync fence to wait for the completion of rendering of other windows,
+<span class="linenr">189: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">before using their content to render the current screen.
+<span class="linenr">190: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">191: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Required for explicit sync drivers, such as nvidia.
+<span class="linenr">192: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">193: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">194: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">xrender-sync-fence = false
+<span class="linenr">195: </span></span>
+<span class="linenr">196: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">GLX backend: Use specified GLSL fragment shader for rendering window
+<span class="linenr">197: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">contents. Read the man page for a detailed explanation of the interface.
+<span class="linenr">198: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">199: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Can be set per-window using rules.
+<span class="linenr">200: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">201: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">window-shader-fg = "default"
+<span class="linenr">202: </span></span>
+<span class="linenr">203: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Force all windows to be painted with blending. Useful if you
+<span class="linenr">204: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">have a `window-shader-fg` that could turn opaque pixels transparent.
+<span class="linenr">205: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">206: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">207: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">force-win-blend = false
+<span class="linenr">208: </span></span>
+<span class="linenr">209: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Do not use EWMH to detect fullscreen windows.
+<span class="linenr">210: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Reverts to checking if a window is fullscreen based only on its size and coordinates.
+<span class="linenr">211: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">212: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">213: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">no-ewmh-fullscreen = false
+<span class="linenr">214: </span></span>
+<span class="linenr">215: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Dimming bright windows so their brightness doesn't exceed this set value.
+<span class="linenr">216: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Brightness of a window is estimated by averaging all pixels in the window,
+<span class="linenr">217: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">so this could comes with a performance hit.
+<span class="linenr">218: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Setting this to 1.0 disables this behaviour. Requires --use-damage to be disabled.
+<span class="linenr">219: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">220: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: 1.0 (disabled)
+<span class="linenr">221: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">max-brightness = 1.0
+<span class="linenr">222: </span></span>
+<span class="linenr">223: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Make transparent windows clip other windows like non-transparent windows do,
+<span class="linenr">224: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">instead of blending on top of them. e.g. placing a transparent window on top
+<span class="linenr">225: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">of another window will cut a "hole" in that window, and show the desktop background
+<span class="linenr">226: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">underneath.
+<span class="linenr">227: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">228: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: false
+<span class="linenr">229: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">transparent-clipping = false
+<span class="linenr">230: </span></span>
+<span class="linenr">231: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Set the log level. Possible values are:
+<span class="linenr">232: </span></span><span style="color: #b22222;">#  </span><span style="color: #b22222;">"trace", "debug", "info", "warn", "error"
+<span class="linenr">233: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">in increasing level of importance. Case insensitive.
+<span class="linenr">234: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">If using the "TRACE" log level, it's better to log into a file
+<span class="linenr">235: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">using *--log-file*, since it can generate a huge stream of logs.
+<span class="linenr">236: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">237: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Default: "warn"
+<span class="linenr">238: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">log-level = "warn";
+<span class="linenr">239: </span></span>
+<span class="linenr">240: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Set the log file.
+<span class="linenr">241: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">If *--log-file* is never specified, logs will be written to stderr.
+<span class="linenr">242: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Otherwise, logs will to written to the given file, though some of the early
+<span class="linenr">243: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">logs might still be written to the stderr.
+<span class="linenr">244: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">When setting this option from the config file, it is recommended to use an absolute path.
+<span class="linenr">245: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">246: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">log-file = "/path/to/your/log/file"
+<span class="linenr">247: </span></span>
+<span class="linenr">248: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">Write process ID to a file.
+<span class="linenr">249: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">write-pid-path = "/path/to/your/log/file"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf46d001" class="outline-4">
+<h4 id="orgf46d001"><span class="section-number-4">2.1.7.</span> rules</h4>
+<div class="outline-text-4" id="text-2-1-7">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">250: </span>rules: ({
+<span class="linenr">251: </span>  <span style="color: #b8860b;">match</span> = <span style="color: #bc8f8f;">"window_type = 'tooltip'"</span>;
+<span class="linenr">252: </span>  <span style="color: #b8860b;">fade</span> = false;
+<span class="linenr">253: </span>  <span style="color: #b8860b;">shadow</span> = true;
+<span class="linenr">254: </span>  <span style="color: #b8860b;">opacity</span> = 0.75;
+<span class="linenr">255: </span>  <span style="color: #b8860b;">full-shadow</span> = false;
+<span class="linenr">256: </span><span style="color: #228b22;">},</span> {
+<span class="linenr">257: </span>  <span style="color: #b8860b;">match</span> = <span style="color: #bc8f8f;">"window_type = 'dock'    || "</span>
+<span class="linenr">258: </span>          <span style="color: #bc8f8f;">"window_type = 'desktop' || "</span>
+<span class="linenr">259: </span>          <span style="color: #bc8f8f;">"_GTK_FRAME_EXTENTS@"</span>;
+<span class="linenr">260: </span>  <span style="color: #b8860b;">blur-background</span> = false;
+<span class="linenr">261: </span><span style="color: #228b22;">},</span> {
+<span class="linenr">262: </span>  <span style="color: #b8860b;">match</span> = <span style="color: #bc8f8f;">"window_type != 'dock'"</span>;
+<span class="linenr">263: </span>  <span style="color: #b22222;"># </span><span style="color: #b22222;">shader = "my_shader.frag";
+<span class="linenr">264: </span></span><span style="color: #228b22;">},</span> {
+<span class="linenr">265: </span>  <span style="color: #b8860b;">match</span> = <span style="color: #bc8f8f;">"window_type = 'dock' || "</span>
+<span class="linenr">266: </span>          <span style="color: #bc8f8f;">"window_type = 'desktop'"</span>;
+<span class="linenr">267: </span>  <span style="color: #b8860b;">corner-radius</span> = 0;
+<span class="linenr">268: </span><span style="color: #228b22;">},</span> {
+<span class="linenr">269: </span>  <span style="color: #b8860b;">match</span> = <span style="color: #bc8f8f;">"name = 'Notification'   || "</span>
+<span class="linenr">270: </span>          <span style="color: #bc8f8f;">"class_g = 'Conky'       || "</span>
+<span class="linenr">271: </span>          <span style="color: #bc8f8f;">"class_g ?= 'Notify-osd' || "</span>
+<span class="linenr">272: </span>          <span style="color: #bc8f8f;">"class_g = 'Cairo-clock' || "</span>
+<span class="linenr">273: </span>          <span style="color: #bc8f8f;">"_GTK_FRAME_EXTENTS@"</span>;
+<span class="linenr">274: </span>  <span style="color: #b8860b;">shadow</span> = false;
+<span class="linenr">275: </span>})
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org618175c" class="outline-4">
+<h4 id="org618175c"><span class="section-number-4">2.1.8.</span> imports</h4>
+<div class="outline-text-4" id="text-2-1-8">
+<div class="org-src-container">
+<pre class="src src-conf-unix"><span class="linenr">276: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">`@include` directive can be used to include additional configuration files.
+<span class="linenr">277: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">Relative paths are search either in the parent of this configuration file
+<span class="linenr">278: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">(when the configuration is loaded through a symlink, the symlink will be
+<span class="linenr">279: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">resolved first). Or in `$XDG_CONFIG_HOME/picom/include`.
+<span class="linenr">280: </span></span><span style="color: #b22222;">#</span><span style="color: #b22222;">
+<span class="linenr">281: </span></span><span style="color: #b22222;"># </span><span style="color: #b22222;">@include "extra.conf"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org039f066" class="outline-2">
+<h2 id="org039f066"><span class="section-number-2">3.</span> xdg-desktop-portal</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgbec8e81" class="outline-3">
+<h3 id="orgbec8e81"><span class="section-number-3">3.1.</span> qtile-portal.conf</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-conf-unix">[<span style="color: #228b22;">preferred</span>]
+<span style="color: #b8860b;">default</span>=gtk
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2026-05-11 Mon 00:00</p>
+<p class="author">Author: Kristian Alexander P</p>
+<p class="date">Created: 2026-05-11 Mon 05:13</p>
 </div>
 </body>
 </html>
