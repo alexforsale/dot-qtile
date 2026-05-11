@@ -698,3 +698,13 @@ rules: ({
 #
 # @include "extra.conf"
 #+end_src
+* xdg-desktop-portal
+** qtile-portal.conf
+:PROPERTIES:
+:header-args: :tangle .config/xdg-desktop-portal/qtile-portal.conf :mkdirp t
+:END:
+
+#+begin_src conf-unix
+[preferred]
+default=gtk
+#+end_src
