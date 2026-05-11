@@ -1,0 +1,27 @@
+name: Publish
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v4
+      - name: Install Emacs
+        run: sudo apt install emacs-nox --yes
+      - name: Build the site
+        run: ./publish.sh
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./public
