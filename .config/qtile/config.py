@@ -1,25 +1,3 @@
-#+options: ':t *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline author:t
-#+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
-#+options: email:nil expand-links:t f:t inline:t num:t p:nil pri:nil prop:nil
-#+options: stat:t tags:t tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
-#+title: Qtile Configuration
-#+date: <2026-05-11 Mon>
-#+author: Kristian Alexander P
-#+email: alexforsale@yahoo.com
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 30.2 (Org mode 9.8.4)
-#+cite_export:
-#+setupfile: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
-#+export_file_name: index.html
-* Qtile
-** config.py
-:PROPERTIES:
-:header-args: :tangle .config/qtile/config.py :mkdirp t
-:END:
-*** imports
-#+begin_src python -n
 import os
 from collections.abc import Callable
 import shutil
@@ -29,17 +7,10 @@ from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Output, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-#+end_src
-*** Set the mod variable
-#+begin_src python +n
+
 mod = "mod4"
-#+end_src
-*** Set the terminal variable
-#+begin_src python +n
+
 terminal = guess_terminal()
-#+end_src
-*** guess_browser() function
-#+begin_src python +n
 
 def guess_browser():
     """"Get currently available browser."""
@@ -49,17 +20,11 @@ def guess_browser():
 
 
 browser = guess_browser()
-#+end_src
-*** mail variable
-#+begin_src python +n
+
 mail = "thunderbird"
-#+end_src
-*** filemanager variable
-#+begin_src python +n
+
 filemanager = "thunar"
-#+end_src
-*** Keys
-#+begin_src python +n
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -164,9 +129,7 @@ keys = [
     Key([mod], "period", lazy.spawn("rofimoji"), desc="rofimoji"),
     # Key([mod, "shift"], "t", lazy.spawn(ocr()), desc="ocr"),
 ]
-#+end_src
-*** Switch VTs in wayland
-#+begin_src python +n
+
 for vt in range(1, 8):
     keys.append(
         Key(
@@ -176,9 +139,7 @@ for vt in range(1, 8):
             desc=f"Switch to VT{vt}",
         )
     )
-#+end_src
-*** groups
-#+begin_src python +n
+
 groups = [Group(i) for i in "123456789"]
 
 for i in groups:
@@ -204,9 +165,7 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
-#+end_src
-*** layouts
-#+begin_src python +n
+
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     layout.Max(),
@@ -222,18 +181,14 @@ layouts = [
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
-#+end_src
-*** widget and extension defaults
-#+begin_src python +n
+
 widget_defaults = dict(
     font="OverpassM Nerd Font Mono",
     fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
-#+end_src
-*** screens
-#+begin_src python +n
+
 logo = os.path.join(os.path.dirname(libqtile.resources.__file__), "logo.png")
 screens = [
     Screen(
@@ -303,17 +258,13 @@ fake_screens: list[Screen] | None = None
 # can decide based on e.g. the number of screens, or which ports are plugged
 # in exactly what do render in each bar for each screen.
 generate_screens: Callable[[list[Output]], list[Screen]] | None = None
-#+end_src
-*** mouse - drag floating layouts
-#+begin_src python +n
+
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
-#+end_src
-*** misc
-#+begin_src python +n
+
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
@@ -348,9 +299,7 @@ idle_inhibitors = []  # type: list
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-#+end_src
-*** float rules
-#+begin_src python +n
+
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
@@ -363,9 +312,7 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
-#+end_src
-*** startups
-#+begin_src python +n
+
 STARTUP_COMMANDS = [
     "dbus-update-activation-environment --all"
     "xsetroot -cursor_name left_ptr",
@@ -387,314 +334,3 @@ def autostart():
     """Stuffs to autostart."""
     for cmd in STARTUP_COMMANDS:
         os.system(cmd)
-#+end_src
-* Picom
-** picom.conf
-:PROPERTIES:
-:header-args: :tangle .config/picom/picom.conf :mkdirp t
-:END:
-*** shadows
-#+begin_src conf-unix -n
-# Enabled client-side shadows on windows. Note desktop windows
-# (windows with '_NET_WM_WINDOW_TYPE_DESKTOP') never get shadow,
-# unless explicitly requested using the wintypes option.
-#
-# Can be set per-window using rules.
-#
-# Default: false
-shadow = true;
-
-# The blur radius for shadows, in pixels.
-#
-# Default: 12
-shadow-radius = 7;
-
-# The opacity of shadows.
-#
-# Range: 0.0 - 1.0
-# Default: 0.75
-# shadow-opacity = .75
-
-# The left offset for shadows, in pixels.
-#
-# Default: -15
-shadow-offset-x = -7;
-
-# The top offset for shadows, in pixels.
-#
-# Default: -15
-shadow-offset-y = -7;
-
-# Hex string color value of shadow. Formatted like "#RRGGBB", e.g. "#C0FFEE".
-#
-# Default: #000000
-# shadow-color = "#000000"
-
-# Crop shadow of a window fully on a particular monitor to that monitor. This is
-# currently implemented using the X RandR extension.
-#
-# Default: false
-# crop-shadow-to-monitor = false
-#+end_src
-*** fading
-#+begin_src conf-unix +n
-# Fade windows in/out when opening/closing and when opacity changes,
-# unless no-fading-openclose is used. Can be set per-window using rules.
-#
-# Default: false
-fading = true;
-
-# Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
-fade-in-step = 0.03;
-
-# Opacity change between steps while fading out. (0.01 - 1.0, defaults to 0.03)
-fade-out-step = 0.03;
-
-# The time between steps in fade step, in milliseconds. (> 0, defaults to 10)
-# fade-delta = 10
-
-# Do not fade on window open/close.
-# no-fading-openclose = false
-
-# Do not fade destroyed ARGB windows with WM frame. Workaround of bugs in Openbox, Fluxbox, etc.
-# no-fading-destroyed-argb = false
-#+end_src
-*** transparency / opacity
-#+begin_src conf-unix +n
-# Opacity of window titlebars and borders.
-#
-# Range: 0.1 - 1.0
-# Default: 1.0 (disabled)
-frame-opacity = 0.9;
-
-# Use fixed inactive dim value, instead of adjusting according to window opacity.
-#
-# Default: false
-# inactive-dim-fixed = true
-#+end_src
-*** corners
-#+begin_src conf-unix +n
-# Sets the radius of rounded window corners. When > 0, the compositor will
-# round the corners of windows. Does not interact well with
-# `transparent-clipping`.
-#
-# Default: 0 (disabled)
-corner-radius = 0
-#+end_src
-*** blur
-#+begin_src conf-unix +n
-# Parameters for background blurring, see BLUR section in the man page for more information.
-# blur-method =
-# blur-size = 12
-#
-# blur-deviation = false
-#
-# blur-strength = 5
-
-# Blur background of semi-transparent / ARGB windows.
-# Can be set per-window using rules.
-#
-# Default: false
-# blur-background = false
-
-# Blur background of windows when the window frame is not opaque.
-# Implies:
-#    blur-background
-#
-# Default: false
-# blur-background-frame = false
-
-# Use fixed blur strength rather than adjusting according to window opacity.
-#
-# Default: false
-# blur-background-fixed = false
-
-
-# Specify the blur convolution kernel, with the following format:
-# example:
-#   blur-kern = "5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
-# Can also be a pre-defined kernel, see the man page.
-#
-# Default: ""
-blur-kern = "3x3box";
-#+end_src
-*** general settings
-#+begin_src conf-unix +n
-# Enable remote control via D-Bus. See the man page for more details.
-#
-# Default: false
-# dbus = true
-
-# Daemonize process. Fork to background after initialization. Causes issues with certain (badly-written) drivers.
-# daemon = false
-
-# Specify the backend to use: `xrender`, `glx`, or `egl`.
-#
-# Default: "xrender"
-backend = "xrender"
-
-# Use higher precision during rendering, and apply dither when presenting the
-# rendered screen. Reduces banding artifacts, but may cause performance
-# degradation. Only works with OpenGL.
-dithered-present = false;
-
-# Enable/disable VSync.
-#
-# Default: false
-vsync = true;
-
-# Try to detect windows with rounded corners and don't consider them
-# shaped windows. The accuracy is not very high, unfortunately.
-#
-# Has nothing to do with `corner-radius`.
-#
-# Default: false
-detect-rounded-corners = true;
-
-# Detect '_NET_WM_WINDOW_OPACITY' on client windows, useful for window managers
-# not passing '_NET_WM_WINDOW_OPACITY' of client windows to frame windows.
-#
-# Default: false
-detect-client-opacity = true;
-
-# Use EWMH '_NET_ACTIVE_WINDOW' to determine currently focused window,
-# rather than listening to 'FocusIn'/'FocusOut' event. May be more accurate,
-# provided that the WM supports it.
-#
-# Default: false
-# use-ewmh-active-win = false
-
-# Unredirect all windows if a full-screen opaque window is detected,
-# to maximize performance for full-screen windows. Known to cause flickering
-# when redirecting/unredirecting windows.
-#
-# Default: false
-# unredir-if-possible = false
-
-# Delay before unredirecting the window, in milliseconds.
-#
-# Default: 0.
-# unredir-if-possible-delay = 0
-
-# Use 'WM_TRANSIENT_FOR' to group windows, and consider windows
-# in the same group focused at the same time.
-#
-# Default: false
-detect-transient = true;
-
-# Use 'WM_CLIENT_LEADER' to group windows, and consider windows in the same
-# group focused at the same time. This usually means windows from the same application
-# will be considered focused or unfocused at the same time.
-# 'WM_TRANSIENT_FOR' has higher priority if detect-transient is enabled, too.
-#
-# Default: false
-# detect-client-leader = false
-
-# Use of damage information for rendering. This cause the only the part of the
-# screen that has actually changed to be redrawn, instead of the whole screen
-# every time. Should improve performance.
-#
-# Default: false
-use-damage = true;
-
-# Use X Sync fence to wait for the completion of rendering of other windows,
-# before using their content to render the current screen.
-#
-# Required for explicit sync drivers, such as nvidia.
-#
-# Default: false
-# xrender-sync-fence = false
-
-# GLX backend: Use specified GLSL fragment shader for rendering window
-# contents. Read the man page for a detailed explanation of the interface.
-#
-# Can be set per-window using rules.
-#
-# window-shader-fg = "default"
-
-# Force all windows to be painted with blending. Useful if you
-# have a `window-shader-fg` that could turn opaque pixels transparent.
-#
-# Default: false
-# force-win-blend = false
-
-# Do not use EWMH to detect fullscreen windows.
-# Reverts to checking if a window is fullscreen based only on its size and coordinates.
-#
-# Default: false
-# no-ewmh-fullscreen = false
-
-# Dimming bright windows so their brightness doesn't exceed this set value.
-# Brightness of a window is estimated by averaging all pixels in the window,
-# so this could comes with a performance hit.
-# Setting this to 1.0 disables this behaviour. Requires --use-damage to be disabled.
-#
-# Default: 1.0 (disabled)
-# max-brightness = 1.0
-
-# Make transparent windows clip other windows like non-transparent windows do,
-# instead of blending on top of them. e.g. placing a transparent window on top
-# of another window will cut a "hole" in that window, and show the desktop background
-# underneath.
-#
-# Default: false
-# transparent-clipping = false
-
-# Set the log level. Possible values are:
-#  "trace", "debug", "info", "warn", "error"
-# in increasing level of importance. Case insensitive.
-# If using the "TRACE" log level, it's better to log into a file
-# using *--log-file*, since it can generate a huge stream of logs.
-#
-# Default: "warn"
-# log-level = "warn";
-
-# Set the log file.
-# If *--log-file* is never specified, logs will be written to stderr.
-# Otherwise, logs will to written to the given file, though some of the early
-# logs might still be written to the stderr.
-# When setting this option from the config file, it is recommended to use an absolute path.
-#
-# log-file = "/path/to/your/log/file"
-
-# Write process ID to a file.
-# write-pid-path = "/path/to/your/log/file"
-#+end_src
-*** rules
-#+begin_src conf-unix +n
-rules: ({
-  match = "window_type = 'tooltip'";
-  fade = false;
-  shadow = true;
-  opacity = 0.75;
-  full-shadow = false;
-}, {
-  match = "window_type = 'dock'    || "
-          "window_type = 'desktop' || "
-          "_GTK_FRAME_EXTENTS@";
-  blur-background = false;
-}, {
-  match = "window_type != 'dock'";
-  # shader = "my_shader.frag";
-}, {
-  match = "window_type = 'dock' || "
-          "window_type = 'desktop'";
-  corner-radius = 0;
-}, {
-  match = "name = 'Notification'   || "
-          "class_g = 'Conky'       || "
-          "class_g ?= 'Notify-osd' || "
-          "class_g = 'Cairo-clock' || "
-          "_GTK_FRAME_EXTENTS@";
-  shadow = false;
-})
-#+end_src
-*** imports
-#+begin_src conf-unix +n
-# `@include` directive can be used to include additional configuration files.
-# Relative paths are search either in the parent of this configuration file
-# (when the configuration is loaded through a symlink, the symlink will be
-# resolved first). Or in `$XDG_CONFIG_HOME/picom/include`.
-#
-# @include "extra.conf"
-#+end_src

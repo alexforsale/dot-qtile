@@ -1,3 +1,4 @@
 .packages/
 content/
 public/
+*.mypy_cache/
