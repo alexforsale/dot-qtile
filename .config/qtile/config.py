@@ -325,7 +325,7 @@ STARTUP_COMMANDS = [
     "nm-applet & ",
     "~/.fehbg &",
     "emacs --daemon &",
-    "systemctl --user start xsettingsd"
+    "xsettingsd &"
 ]
 
 
